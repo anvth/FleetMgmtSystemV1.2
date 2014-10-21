@@ -4,5 +4,14 @@
     <string name="app_name">FleetMgmtSystemV1.2</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- labels to be displayed -->
+    <string name="vehicle_asset">Vehicle Assets</string>
+    <string name="commodity_asset">Commodities Assets</string>
+    <string name="human_assets">Human Resources</string>
+    <string name="vehicle_base">Vehicle Base</string>
+    
+    <!-- labels on buttons -->
+    <string name="update_checklist">Update View</string>
 
 </resources>

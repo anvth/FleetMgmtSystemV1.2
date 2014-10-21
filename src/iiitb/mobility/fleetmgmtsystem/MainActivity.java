@@ -1,36 +1,58 @@
 package iiitb.mobility.fleetmgmtsystem;
 
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.maps.MapView.LayoutParams;
+import com.google.android.maps.*;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
-
+	
+	MapView mapView;
+	MapController mapController;
+	GeoPoint geoPoint;
+	
+	private CheckBox chkVehicleAsset, chkCommodityAsset, chkHumanResource, chkVehicleBase;
+	private Button btnUpdateCheckList;
+   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    
+    public void addListenerOnButton(){
+    	chkVehicleAsset = (CheckBox) findViewById(R.id.chkVehicleAsset);
+    	chkCommodityAsset = (CheckBox) findViewById(R.id.chkCommodityAsset);
+    	chkHumanResource = (CheckBox) findViewById(R.id.chkHumanAsset);
+    	chkVehicleBase = (CheckBox) findViewById(R.id.chkVehicleBase);
+    	
+    	btnUpdateCheckList = (Button) findViewById(R.id.btnUpdateCheckList);
+    	
+    	btnUpdateCheckList.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				StringBuffer result = new StringBuffer();
+				result.append(chkVehicleAsset.isChecked()+" ");
+				result.append(chkCommodityAsset.isChecked()+" ");
+				result.append(chkHumanResource.isChecked()+" ");
+				result.append(chkVehicleBase.isChecked()+" ");
+				
+				Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_LONG).show();
+			}
+		});
     }
 }
