@@ -3,8 +3,11 @@ package iiitb.mobility.fleetmgmtsystem;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.maps.MapView.LayoutParams;
 import com.google.android.maps.*;
 
@@ -26,11 +29,17 @@ public class MainActivity extends Activity {
 	
 	private CheckBox chkVehicleAsset, chkCommodityAsset, chkHumanResource, chkVehicleBase;
 	private Button btnUpdateCheckList;
+	private GoogleMap googleMap;
    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        addListenerOnButton();
+        
+        googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(12.9667, 77.5667)));
     }
     
     public void addListenerOnButton(){
