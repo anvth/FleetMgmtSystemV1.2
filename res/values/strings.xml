@@ -13,5 +13,6 @@
     
     <!-- labels on buttons -->
     <string name="update_checklist">Update View</string>
+    <string name="advance_filters">Advance Filters</string>
 
 </resources>

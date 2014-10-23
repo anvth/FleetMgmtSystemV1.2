@@ -411,20 +411,19 @@ containing a value of this type.
     public static final class id {
         public static final int action_settings=0x7f0a001a;
         public static final int book_now=0x7f0a000e;
-        public static final int btnUpdateCheckList=0x7f0a0018;
+        public static final int btnAdvancedFilters=0x7f0a0015;
+        public static final int btnUpdateView=0x7f0a0014;
         public static final int buyButton=0x7f0a000a;
         public static final int buy_now=0x7f0a000f;
         public static final int buy_with_google=0x7f0a0010;
-        public static final int chkCommodityAsset=0x7f0a0015;
-        public static final int chkHumanAsset=0x7f0a0016;
-        public static final int chkVehicleAsset=0x7f0a0014;
-        public static final int chkVehicleBase=0x7f0a0017;
         public static final int classic=0x7f0a0011;
+        public static final int dialogButtonOK=0x7f0a0019;
         public static final int grayscale=0x7f0a0012;
         public static final int holo_dark=0x7f0a0005;
         public static final int holo_light=0x7f0a0006;
         public static final int hybrid=0x7f0a0000;
-        public static final int map=0x7f0a0019;
+        public static final int image=0x7f0a0017;
+        public static final int map=0x7f0a0016;
         public static final int match_parent=0x7f0a000c;
         public static final int monochrome=0x7f0a0013;
         public static final int none=0x7f0a0001;
@@ -435,6 +434,7 @@ containing a value of this type.
         public static final int selectionDetails=0x7f0a000b;
         public static final int strict_sandbox=0x7f0a0009;
         public static final int terrain=0x7f0a0004;
+        public static final int text=0x7f0a0018;
         public static final int wrap_content=0x7f0a000d;
     }
     public static final class integer {
@@ -442,6 +442,7 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
+        public static final int update_view=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -449,6 +450,7 @@ containing a value of this type.
     public static final class string {
         public static final int accept=0x7f050002;
         public static final int action_settings=0x7f050025;
+        public static final int advance_filters=0x7f05002b;
         public static final int app_name=0x7f050023;
         public static final int commodity_asset=0x7f050027;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
