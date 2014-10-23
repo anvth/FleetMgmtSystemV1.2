@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF" >
+    
+    <TextView
+            android:id="@+id/vehicleInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:padding="10sp"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            android:text="@string/vehicle_info" />
+    
+    <TextView
+            android:id="@+id/distanceClocked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/distance_clocked"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    <TextView
+            android:id="@+id/serviceDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/service_date"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    <TextView
+            android:id="@+id/nextService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/next_service"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="15sp"/>
+    
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    android:padding="40sp"/>
+    
+    <TextView
+            android:id="@+id/commodityInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:padding="10sp"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            android:text="@string/commodity_info" />
+    
+    <TextView
+            android:id="@+id/oxygenLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/oxygen_level"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    <TextView
+            android:id="@+id/drugOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/drug_one"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    
+    
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    android:padding="40sp"/>
+    
+    <TextView
+            android:id="@+id/humanInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:padding="10sp"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            android:text="@string/human_info" />
+    
+    <TextView
+            android:id="@+id/driverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/driver_name"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    <TextView
+            android:id="@+id/paramedicsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff7f7f7f"
+            android:textSize="14sp" 
+            android:text="@string/paramedics_name"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"/>
+    
+    
+    
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@android:color/darker_gray"
+    android:padding="40sp"/>
+    
+
+</LinearLayout>

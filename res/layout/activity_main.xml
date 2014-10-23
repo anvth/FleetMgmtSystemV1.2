@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
      <LinearLayout 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -23,6 +23,16 @@
         android:layout_height="wrap_content"
         android:text="@string/advance_filters"
         style="?android:attr/buttonBarButtonStyle"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:text="        Fleet Management System"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold|italic" 
+        android:textColor="@color/wallet_hint_foreground_holo_dark"/>
 
     </LinearLayout>
     

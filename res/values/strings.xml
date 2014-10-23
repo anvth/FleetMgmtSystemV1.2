@@ -14,5 +14,20 @@
     <!-- labels on buttons -->
     <string name="update_checklist">Update View</string>
     <string name="advance_filters">Advance Filters</string>
-
+    
+    <!-- attributes related to vehicles -->
+    <string name="vehicle_info">Vehicle Assets</string>
+	<string name="distance_clocked">Distance Clocked</string>
+	<string name="service_date">Service Date</string>
+	<string name="next_service">Next Service</string>
+	
+	<!--  attributed related to commodities -->
+	<string name="commodity_info">Commodity Assets</string>
+	<string name="oxygen_level">Oxygen Level</string>
+	<string name="drug_one">Drug One</string>
+	
+	<!--  attributes related to human assets -->
+	<string name="human_info">Human Assets</string>
+	<string name="driver_name">Driver Name</string>
+	<string name="paramedics_name">Paramedics Name</string>
 </resources>

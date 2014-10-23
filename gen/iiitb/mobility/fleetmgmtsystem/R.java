@@ -409,7 +409,7 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020020;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001a;
+        public static final int action_settings=0x7f0a0025;
         public static final int book_now=0x7f0a000e;
         public static final int btnAdvancedFilters=0x7f0a0015;
         public static final int btnUpdateView=0x7f0a0014;
@@ -417,24 +417,35 @@ containing a value of this type.
         public static final int buy_now=0x7f0a000f;
         public static final int buy_with_google=0x7f0a0010;
         public static final int classic=0x7f0a0011;
-        public static final int dialogButtonOK=0x7f0a0019;
+        public static final int commodityInfo=0x7f0a001c;
+        public static final int dialogButtonOK=0x7f0a0024;
+        public static final int distanceClocked=0x7f0a0019;
+        public static final int driverName=0x7f0a0020;
+        public static final int drugOne=0x7f0a001e;
         public static final int grayscale=0x7f0a0012;
         public static final int holo_dark=0x7f0a0005;
         public static final int holo_light=0x7f0a0006;
+        public static final int humanInfo=0x7f0a001f;
         public static final int hybrid=0x7f0a0000;
-        public static final int image=0x7f0a0017;
-        public static final int map=0x7f0a0016;
+        public static final int image=0x7f0a0022;
+        public static final int map=0x7f0a0017;
         public static final int match_parent=0x7f0a000c;
         public static final int monochrome=0x7f0a0013;
+        public static final int nextService=0x7f0a001b;
         public static final int none=0x7f0a0001;
         public static final int normal=0x7f0a0002;
+        public static final int oxygenLevel=0x7f0a001d;
+        public static final int paramedicsName=0x7f0a0021;
         public static final int production=0x7f0a0007;
         public static final int sandbox=0x7f0a0008;
         public static final int satellite=0x7f0a0003;
         public static final int selectionDetails=0x7f0a000b;
+        public static final int serviceDate=0x7f0a001a;
         public static final int strict_sandbox=0x7f0a0009;
         public static final int terrain=0x7f0a0004;
-        public static final int text=0x7f0a0018;
+        public static final int text=0x7f0a0023;
+        public static final int textView1=0x7f0a0016;
+        public static final int vehicleInfo=0x7f0a0018;
         public static final int wrap_content=0x7f0a000d;
     }
     public static final class integer {
@@ -442,7 +453,8 @@ containing a value of this type.
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int update_view=0x7f030001;
+        public static final int infowindow_vehicle=0x7f030001;
+        public static final int update_view=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -453,6 +465,9 @@ containing a value of this type.
         public static final int advance_filters=0x7f05002b;
         public static final int app_name=0x7f050023;
         public static final int commodity_asset=0x7f050027;
+        /**   attributed related to commodities 
+         */
+        public static final int commodity_info=0x7f050030;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f050009;
@@ -555,8 +570,18 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f050005;
         public static final int create_calendar_title=0x7f050004;
         public static final int decline=0x7f050003;
+        public static final int distance_clocked=0x7f05002d;
+        public static final int driver_name=0x7f050034;
+        public static final int drug_one=0x7f050032;
         public static final int hello_world=0x7f050024;
         public static final int human_assets=0x7f050028;
+        /**   attributes related to human assets 
+         */
+        public static final int human_info=0x7f050033;
+        public static final int next_service=0x7f05002f;
+        public static final int oxygen_level=0x7f050031;
+        public static final int paramedics_name=0x7f050035;
+        public static final int service_date=0x7f05002e;
         public static final int store_picture_message=0x7f050001;
         public static final int store_picture_title=0x7f050000;
         /**  labels on buttons 
@@ -566,6 +591,9 @@ containing a value of this type.
          */
         public static final int vehicle_asset=0x7f050026;
         public static final int vehicle_base=0x7f050029;
+        /**  attributes related to vehicles 
+         */
+        public static final int vehicle_info=0x7f05002c;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

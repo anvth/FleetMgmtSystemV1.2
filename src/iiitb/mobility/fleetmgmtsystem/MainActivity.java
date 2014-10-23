@@ -4,25 +4,24 @@ package iiitb.mobility.fleetmgmtsystem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.maps.MapView.LayoutParams;
 import com.google.android.maps.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,8 +43,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	private GoogleMap googleMap, vehicleMap;
 	private Location currentLocation;
 	private LocationClient locationClient;
+	private Marker marker;
 	final Context context = this;
 	StringBuffer newResult = new StringBuffer();
+	private String oldResult;
 	
 	private Double[][] locations = new Double[10][2];{
 		locations[0][0]= 13.076970918273926;
@@ -70,10 +71,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		locations[9][1]= 77.572280883778906;
 	}
    
-    @Override
+    @Override 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         locationClient = new LocationClient(this, this, this);        
         googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
     }
@@ -96,6 +98,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     	btnUpdateView = (Button) findViewById(R.id.btnUpdateView);
     	
     	vehicleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+    	vehicleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(oldResult));
     	
     	btnUpdateView.setOnClickListener(new OnClickListener() {
     		 
@@ -127,7 +130,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 										newResult.append("0");
 									}
 								}
-								Toast.makeText(MainActivity.this, newResult.toString(), Toast.LENGTH_LONG).show();
+								//Toast.makeText(MainActivity.this, newResult.toString(), Toast.LENGTH_LONG).show();
 								plotMarkers();
 								
 							}
@@ -150,7 +153,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public void plotMarkers(){
     	if(newResult.toString().equalsIgnoreCase("1000")){
 			for(int i=0;i<6;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("KA-50-K-2540").snippet("hbhdsb"+ "\n" + "abcd"));
+				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));/*.title("KA-50-K-2540").snippet("hbhdsb"+ "\n" + "abcd"))*/
 			}
 			for(int i=6;i<8;i++){
 				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
@@ -196,6 +199,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 			}
 		}
+    	oldResult = newResult.toString();
     	newResult.setLength(0);
     }
 
@@ -225,5 +229,34 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 		super.onStop();
 	}
 
-	
+	public class CustomInfoWindowAdapter implements InfoWindowAdapter{
+		
+		private View view;
+		
+		public CustomInfoWindowAdapter(String val){
+			
+				view = getLayoutInflater().inflate(R.layout.infowindow_vehicle, null);
+		}
+
+		@Override
+		public View getInfoContents(Marker marker) {
+			// TODO Auto-generated method stub
+			if(MainActivity.this.marker != null && MainActivity.this.marker.isInfoWindowShown()){
+				MainActivity.this.marker.hideInfoWindow();
+				MainActivity.this.marker.showInfoWindow();
+			}
+			return null;
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			// TODO Auto-generated method stub
+			if(marker != null){
+				//TextView titleUi = (TextView) view.findViewById(R.id.vehicleInfo);
+				//titleUi.setText(marker.getTitle());
+			}
+			return view;
+		}
+		
+	}
 }
