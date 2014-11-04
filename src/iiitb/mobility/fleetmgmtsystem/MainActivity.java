@@ -1,6 +1,15 @@
 package iiitb.mobility.fleetmgmtsystem;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import iiitb.mobility.fleetmgmtsystem.controller.PlotMarkers;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -21,6 +30,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener{
+public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener{
 	
 	MapView mapView;
 	MapController mapController;
@@ -46,30 +57,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	private Marker marker;
 	final Context context = this;
 	StringBuffer newResult = new StringBuffer();
-	private String oldResult;
+	private String oldResult = "";
+	protected LocationManager locationManager;
+	protected LocationListener locationListener;
 	
-	private Double[][] locations = new Double[10][2];{
-		locations[0][0]= 13.076970918273926;
-		locations[0][1]= 77.595664208984375;
-		locations[1][0]= 12.941904067993164;
-		locations[1][1]= 77.58087921142578;
-		locations[2][0]= 12.979331016540527;
-		locations[2][1]= 77.59944915771484;
-		locations[3][0]= 12.93258285522461;
-		locations[3][1]= 77.61878967205156;
-		locations[4][0]= 12.949662208557129;
-		locations[4][1]= 77.58612823486328;
-		locations[5][0]= 12.91746711730957;
-		locations[5][1]= 77.57286071777344;
-		locations[6][0]= 12.997771263122559;
-		locations[6][1]= 77.55481719970703;
-		locations[7][0]= 13.019174575805664;
-		locations[7][1]= 77.56629180908203;
-		locations[8][0]= 13.011507987976074;
-		locations[8][1]= 77.57398223876953;
-		locations[9][0]= 12.978318214416504;
-		locations[9][1]= 77.572280883778906;
-	}
+	PlotMarkers obj = new PlotMarkers();
+	
+	
    
     @Override 
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +72,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         locationClient = new LocationClient(this, this, this);        
         googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
     
     @Override
@@ -87,10 +84,37 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     	locationClient.connect();
     	
     	CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                new LatLng(12.9667, 77.5667)).zoom(9).build();
+                new LatLng(12.9667, 77.5667)).zoom(12).build();
  
     	 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     	 googleMap.addMarker(new MarkerOptions().position(new LatLng(12.9667, 77.5667)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+    	 
+    	 Location defaultLocation = new Location(Context.LOCATION_SERVICE);
+    	 
+    	 onLocationChanged(defaultLocation);
+    	 
+    	 vehicleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+     	 vehicleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(oldResult));
+     	 
+     	
+     	try{
+	         FileInputStream fin = openFileInput("updateView.txt");
+	         int c;
+	         //String temp="";
+	         while( (c = fin.read()) != -1){
+	            oldResult = oldResult + Character.toString((char)c);
+	         }
+	         obj.plotMarkers(oldResult, googleMap, vehicleMap);
+	         //oldResult = null;
+	         //Toast.makeText(MainActivity.this, oldResult.toString(), Toast.LENGTH_LONG).show();
+
+	      }catch(Exception e){
+
+	      }
+     	 
+     	
+     	
+     		
     }
     
     public void addListenerOnButton(){
@@ -107,11 +131,17 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
   			  
   			  final String views[] = { "Vehicle Asset", "Commodity Asset", "Human Asset", "Vehicle Base"};
   			  final boolean[] itemsChecked = new boolean[views.length];
+  			Toast.makeText(MainActivity.this, oldResult.toString(), Toast.LENGTH_LONG).show();
+  			  for(int i=0;i<views.length;i++){
+  				  if(oldResult.charAt(i)=='1'){
+  					  itemsChecked[i] = true; 
+  				  }
+  			  }
   			  
   			  AlertDialog.Builder builder = new AlertDialog.Builder(context);
   			  
   			  builder.setTitle("Choose a view")
-  			  			.setMultiChoiceItems(views, null, new DialogInterface.OnMultiChoiceClickListener() {
+  			  			.setMultiChoiceItems(views, itemsChecked, new DialogInterface.OnMultiChoiceClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 								// TODO Auto-generated method stub
@@ -131,8 +161,19 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 									}
 								}
 								//Toast.makeText(MainActivity.this, newResult.toString(), Toast.LENGTH_LONG).show();
-								plotMarkers();
+								try {
+									FileOutputStream fOut = openFileOutput("updateView.txt",Context.MODE_PRIVATE);
+							         fOut.write(newResult.toString().getBytes());
+							         oldResult = newResult.toString();
+							         fOut.close();
+							         								
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								
+								obj.plotMarkers(newResult.toString(), googleMap, vehicleMap);
+								newResult.setLength(0);								
 							}
 						})
 						.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -148,59 +189,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
   		});
     	
     	    	
-    }
-
-    public void plotMarkers(){
-    	if(newResult.toString().equalsIgnoreCase("1000")){
-			for(int i=0;i<6;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));/*.title("KA-50-K-2540").snippet("hbhdsb"+ "\n" + "abcd"))*/
-			}
-			for(int i=6;i<8;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-			}
-			for(int i=8;i<10;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-			}
-		}
-		else if(newResult.toString().equalsIgnoreCase("1100")){
-			for(int i=0;i<5;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-			}
-			for(int i=5;i<8;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-			}
-			for(int i=8;i<10;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-			}
-		}
-		else if(newResult.toString().equalsIgnoreCase("1110")){
-			for(int i=0;i<4;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-			}
-			for(int i=4;i<8;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-			}
-			for(int i=8;i<10;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-			}
-		}
-		else if(newResult.toString().equalsIgnoreCase("0000")){
-			vehicleMap.clear();
-	        googleMap.addMarker(new MarkerOptions().position(new LatLng(12.9667, 77.5667)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-		}
-		else{
-			for(int i=0;i<4;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-			}
-			for(int i=4;i<7;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-			}
-			for(int i=7;i<10;i++){
-				vehicleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0], locations[i][1])).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-			}
-		}
-    	oldResult = newResult.toString();
-    	newResult.setLength(0);
     }
 
 	@Override
@@ -227,6 +215,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 	protected void onStop(){
 		locationClient.disconnect();
 		super.onStop();
+		
+		
 	}
 
 	public class CustomInfoWindowAdapter implements InfoWindowAdapter{
@@ -257,6 +247,34 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 			}
 			return view;
 		}
+		
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		googleMap.addMarker(new MarkerOptions()
+	   	 .position(new LatLng(location.getLatitude(),location.getLongitude()))
+	   			 .icon(BitmapDescriptorFactory.
+	   					 fromResource(R.drawable.ic_launcher_current)));
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+		// TODO Auto-generated method stub
 		
 	}
 }
